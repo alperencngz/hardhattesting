@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity solidity ^0.8.18;
+pragma solidity ^0.8.2;
 
 import "./Token.sol";
 
-contract Lock () {
+contract Lock {
     BEEToken Token;
     uint256 public lockerCount;
     uint256 public totalLocked;

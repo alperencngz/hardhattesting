@@ -5,7 +5,7 @@ require("@nomiclabs/hardhat-waffle");
 
 
 module.exports = {
-  solidity: "0.8.18",
+  solidity: "0.8.2",
   networks: {
     mainnet: {
       url: `https://api.avax.network/ext/bc/C/rpc`,
