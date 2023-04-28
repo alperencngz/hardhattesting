@@ -19,7 +19,7 @@ describe("Lock Contract", function () {
 
     // before, beforeEach, after, afterEach, it
 
-    before(async function() {
+    before(async function () {
         // içinde genelde contractlar deploy edilir
 
         [owner, user1, user2] = await ethers.getSigners();
@@ -37,29 +37,29 @@ describe("Lock Contract", function () {
         token.connect(user2).approve(lock.address, ethers.constants.MaxUint256);
     });
 
-    beforeEach(async function() {
+    beforeEach(async function () {
         balances = [
             ethToNum(await token.balanceOf(owner.address)),
             ethToNum(await token.balanceOf(user1.address)),
             ethToNum(await token.balanceOf(user2.address)),
             ethToNum(await token.balanceOf(lock.address))
         ]
-    })
+    });
 
-    it("Deploys the contracts", async function() {
+    it("Deploys the contracts", async function () {
         // these 2 are kind of same controls ?
         expect(token.address).to.not.be.undefined;
         expect(lock.address).to.be.properAddress;
     });
 
-    it("Sends tokens", async function() {
+    it("Sends tokens", async function () {
         expect(balances[1]).to.be.equal(100);
         expect(balances[2]).to.be.equal(50);
 
         expect(balances[0]).to.be.greaterThan(balances[1]);
-    })
+    });
 
-    it("Approves", async function() {
+    it("Approves", async function () {
         let allowances = [
             await token.allowance(user1.address, lock.address),
             await token.allowance(user2.address, lock.address)
@@ -68,13 +68,17 @@ describe("Lock Contract", function () {
         expect(allowances[0]).to.be.equal(ethers.constants.MaxUint256);
         expect(allowances[0]).to.be.equal(allowances[1]);
 
-    })
+    });
 
-    describe("Contract Functions", function() {
+    it("Reverts exceeding transfer", async function () {
+        await expect(token.connect(user1).transfer(user2.address, ethers.utils.parseUnits("300", 18))).to.be.reverted;
+    });
+
+    describe("Contract Functions", function () {
         // describe içinde describe -> ilkinde kontratı,
         // ikincisinde kontratın fonksiyonlarını kontrol ediyoruz
 
 
-    })
+    });
 
-})
+});
