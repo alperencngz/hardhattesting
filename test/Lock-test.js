@@ -78,7 +78,42 @@ describe("Lock Contract", function () {
         // describe içinde describe -> ilkinde kontratı,
         // ikincisinde kontratın fonksiyonlarını kontrol ediyoruz
 
+        it("user1 locks 10 tokens", async function () {
+            
+        });
 
+
+
+        it("Locker count and locker amount increase", async function () {});
+
+
+
+        it("user2 cannot withdraw tokens", async function () {});
+
+
+
+        it("user1 withdraw tokens", async function () {});
+
+
+
+        it("Locker count and locker amount decrease", async function () {});
+
+
+
+        it("user1 postion deleted", async function () {});
+
+
+
+        it("user1 cannot withdraw more tokens", async function () {});
+    });
+
+
+    // Provider'ın kullanımını görme amaçlı bir test,
+    // docs'tan provider'ın börü özelliklerini incele
+    it("Prints rimestamp", async function () {
+        let block_number = await provider.getBlockNumber();
+        let block = await provider.getBlock(block_number);
+        console.log("timestamp:", block.timestamp);
     });
 
 });
