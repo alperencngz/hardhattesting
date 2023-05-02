@@ -8,12 +8,15 @@ contract Lock {
     uint256 public lockerCount;
     uint256 public totalLocked;
     mapping (address => uint256) public lockers;
+    // kullanıcıların kitlenen tokenlarının açılma zamanı için bir mapping
+    // burada struct kullanıp kullanıcıların token sayısı ve açılma zamanını onla yazabilirdik, better
+    mapping (address => uint256) public deadline;
 
     constructor(address tokenAddress) {
         Token = BEEToken(tokenAddress);
     }
 
-    function lockTokens(uint256 amount) external {
+    function lockTokens(uint256 amount, uint256 time) external {
         require(amount > 0, "Token amount must be > 0.");
 
         // require(Token.balanceOf(msg.sender) >= amount, "Insufficient balance");
@@ -23,6 +26,7 @@ contract Lock {
         if(!(lockers[msg.sender] > 0)) lockerCount++;
         totalLocked += amount;
         lockers[msg.sender] += amount;
+        deadline[msg.sender] = block.timestamp + time;
 
         bool ok = Token.transferFrom(msg.sender, address(this), amount);
         require(ok, "Transfer failed");
@@ -31,8 +35,10 @@ contract Lock {
 
     function withdrawTokens() external {
         require(lockers[msg.sender] > 0, "Not enough token.");
+        require(block.timestamp >= deadline[msg.sender]);
         uint256 amount = lockers[msg.sender];
         delete(lockers[msg.sender]);
+        delete(deadline[msg.sender]);
         totalLocked -= amount;
         lockerCount--;
 
